@@ -24,3 +24,54 @@ You can also find us on #buildroot on OFTC IRC.
 
 If you would like to contribute patches, please read
 https://buildroot.org/manual.html#submitting-patches
+
+
+TUTORIAL T1
+Para configurar o modulo kernel com as politicas sstf:
+
+$ cd modules/
+$ cd sstf-ioschd/
+$ make clean
+$ make
+
+volta para a root 'cd ..'
+$ export LINUX_OVERRIDE_SRCDIR=~/workspaces/labsisop-buildroot/linux-4.13.9/
+$ make
+
+Rodar o modulo escalonador:
+1. inicializar a maquina virtual
+$ ./start_qemu.sh
+
+2. carrega o módulo do escalonador SSTF.
+# modprobe sstf-iosched
+
+3. exibe o escalonador de I/O ativo
+# cat /sys/block/sdb/queue/scheduler
+
+4. mudar o escalonador de I/O pro sstf
+# echo sstf > /sys/block/sdb/queue/scheduler
+
+5. exibe novamente o escalonador de I/O ativo, e agora deve aparecer o sstf selecionado
+# cat /sys/block/sdb/queue/scheduler
+
+6. Para limpar logs
+# dmesg -c
+
+Testar o escalonador:
+# sector_read
+
+7. Gerar logs
+# dmesg | grep "[SSTF]" > results.log
+
+8. Sincronizar 
+# sync
+
+9. Desligar a target
+# poweroff
+
+Na root para recuperar os logs
+1. Depois de gerar o arquivo, basta copiar para a máquina host
+# sudo mkdir -p /mnt/guest-rootfs
+# sudo mount -o loop output/images/rootfs.ext2 /mnt/guest-rootfs
+# sudo cp /mnt/guest-rootfs/root/results.log /workspaces/labsisop-buildroot-1/results.log
+# sudo umount /mnt/guest-rootfs
