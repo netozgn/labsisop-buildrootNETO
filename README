@@ -73,5 +73,5 @@ Na root para recuperar os logs
 1. Depois de gerar o arquivo, basta copiar para a máquina host
 # sudo mkdir -p /mnt/guest-rootfs
 # sudo mount -o loop output/images/rootfs.ext2 /mnt/guest-rootfs
-# sudo cp /mnt/guest-rootfs/root/results.log /workspaces/labsisop-buildroot-1/results.log
+# sudo cp /mnt/guest-rootfs/root/results.log /workspaces/labsisop-buildroot/results.log
 # sudo umount /mnt/guest-rootfs
