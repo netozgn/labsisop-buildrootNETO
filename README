@@ -61,7 +61,7 @@ Testar o escalonador:
 # sector_read
 
 7. Gerar logs
-# dmesg | grep "[SSTF]" > results.log
+# dmesg "[SSTF]" > results.log
 
 8. Sincronizar 
 # sync

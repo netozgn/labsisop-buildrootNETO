@@ -90,30 +90,12 @@ static int sstf_dispatch(struct request_queue *q, int force)
  */
 static void sstf_add_request(struct request_queue *q, struct request *rq)
 {
-	struct sstf_data *nd = q->elevator->elevator_data;
-	struct list_head *pos;
-	struct request *iter_rq;
+    struct sstf_data *nd = q->elevator->elevator_data;
 
-	// Procura a posição correta na fila para inserir a nova requisição, mantendo uma ordenação
-	// baseada na proximidade com a posição atual da cabeça.
-	list_for_each(pos, &nd->queue) {
-		iter_rq = list_entry(pos, struct request, queuelist);
-		// Compara a distância da requisição na lista com a distância da nova requisição.
-		if (abs(blk_rq_pos(iter_rq) - nd->head_pos) > abs(blk_rq_pos(rq) - nd->head_pos)) {
-			// Insere a nova requisição ('rq') antes da requisição iterada ('pos')
-			// porque ela está mais perto da cabeça.
-			list_add_tail(&rq->queuelist, pos);
-			printk(KERN_INFO "[SSTF] Adicionado setor %llu (pos atual da cabeça: %llu)\n",
-			       blk_rq_pos(rq), nd->head_pos);
-			return;
-		}
-	}
+    list_add_tail(&rq->queuelist, &nd->queue);
 
-	// Se o loop terminar sem encontrar uma posição, significa que a nova requisição é a mais distante
-	// de todas, então ela é adicionada ao final da fila.
-	list_add_tail(&rq->queuelist, &nd->queue);
-	printk(KERN_INFO "[SSTF] Adicionado setor %llu ao final (pos atual da cabeça: %llu)\n",
-	       blk_rq_pos(rq), nd->head_pos);
+    printk(KERN_INFO "[FCFS] Adicionado setor %llu ao final da fila (pos atual da cabeça: %llu)\n",
+           blk_rq_pos(rq), nd->head_pos);
 }
 
 /*
