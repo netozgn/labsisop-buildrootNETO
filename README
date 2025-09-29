@@ -76,7 +76,18 @@ Na root para recuperar os logs
 # sudo cp /mnt/guest-rootfs/root/results.log /workspaces/labsisop-buildroot/results.log
 # sudo umount /mnt/guest-rootfs
 
+Desafio 2.2
+Para Compilação
+Alterar post-build -> $COMPILER -o $BUILDROOT_DIR/output/target/bin/syscall_desafio1_processSleep $BUILDROOT_DIR/custom-scripts/syscall_desafio1_processSleep.c
+Alterar  syscalls.h -> asmlinkage long sys_listSleepProcesses(char __user *buf, size_t size);
+Alterar syscall_32.tbl -> 386 i386	listSleepProcesses    listSleepProcesses
 
+Para Execução
+$ export LINUX_OVERRIDE_SRCDIR=$(pwd)/linux-4.13.9
+$ make (no buildroot)
+$ ./start_qemu.sh
+$ ps (ver um pid e adicionar no prox comando)
+$ syscall_desafio1_processSleep pid
 
 Desafio 2.3
 
