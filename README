@@ -61,7 +61,7 @@ Testar o escalonador:
 # sector_read
 
 7. Gerar logs
-# dmesg "[SSTF]" > results.log
+# dmesg | grep "[SSTF]" > results.log
 
 8. Sincronizar 
 # sync
@@ -75,3 +75,35 @@ Na root para recuperar os logs
 # sudo mount -o loop output/images/rootfs.ext2 /mnt/guest-rootfs
 # sudo cp /mnt/guest-rootfs/root/results.log /workspaces/labsisop-buildroot/results.log
 # sudo umount /mnt/guest-rootfs
+
+
+
+Desafio 2.3
+
+$ cd modules/
+$ cd simple_driver_desafio_2.3/
+$ make clean
+$ make
+
+volta para a root 'cd ..'
+$ export LINUX_OVERRIDE_SRCDIR=~/workspaces/labsisop-buildroot/linux-4.13.9/
+$ make
+
+Rodar o modulo escalonador:
+1. inicializar a maquina virtual
+$ ./start_qemu.sh
+
+Carrega modulo
+# modprobe simple_driver_desafio key0="f0e1d2c3" key1="b4a59687" key2="78695a4b" key3="3c2d1e0f"
+
+Rodar os testes
+# test_simple_driver_desafio
+
+Exemplo de output correto:
+random: crng init done
+Starting XTEA device test...
+XTEA Driver opened
+Enviando comando: enc aabbccddeeff00112233445566778899
+XTEA Driver: processed 16 bytes
+Resultado recebido: [e74ca02e5b1885d93d2cd3edb82c2177]
+XTEA Driver closed
