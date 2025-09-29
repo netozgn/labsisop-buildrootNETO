@@ -4,10 +4,12 @@
 #include <string.h>
 
 #define __NR_listSleepProcesses 386
+// 386 i386	listSleepProcesses    listSleepProcesses
+// em syscall_32.tbl
 
-// PEGAR OS PROCESSOS EM SLEEP
 
 /*
+DESAFIO:
 Adicione uma nova chamada de sistema para retornar uma lista com todos os processos em 
 estado de sleep. Um processo fica em estado de sleep quando ele precisa de recursos que 
 não estão disponíveis no momento. Quando em estado de sleep, o processo não utiliza CPU. 
