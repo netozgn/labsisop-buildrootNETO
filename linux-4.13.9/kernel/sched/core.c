@@ -746,6 +746,11 @@ static void set_load_weight(struct task_struct *p)
 		load->inv_weight = WMULT_IDLEPRIO;
 		return;
 	}
+	if (idle_low_policy(p->policy)) {
+		load->weight = scale_load(WEIGHT_LOW_IDLEPRIO);
+		load->inv_weight = WMULT_LOW_IDLEPRIO;
+		return;
+	}
 
 	load->weight = scale_load(sched_prio_to_weight[prio]);
 	load->inv_weight = sched_prio_to_wmult[prio];
@@ -4050,7 +4055,7 @@ recheck:
 		 * Treat SCHED_IDLE as nice 20. Only allow a switch to
 		 * SCHED_NORMAL if the RLIMIT_NICE would normally permit it.
 		 */
-		if (idle_policy(p->policy) && !idle_policy(policy)) {
+		if (idle_policy(p->policy) && !idle_policy(policy) && idle_low_policy(p->policy) && !idle_low_policy(policy)) {
 			if (!can_nice(p, task_nice(p)))
 				return -EPERM;
 		}
@@ -5022,6 +5027,8 @@ SYSCALL_DEFINE1(sched_get_priority_max, int, policy)
 	case SCHED_BATCH:
 	case SCHED_IDLE:
 		ret = 0;
+	case SCHED_LOW_IDLE:
+		ret = 0;
 		break;
 	}
 	return ret;
@@ -5048,6 +5055,8 @@ SYSCALL_DEFINE1(sched_get_priority_min, int, policy)
 	case SCHED_NORMAL:
 	case SCHED_BATCH:
 	case SCHED_IDLE:
+		ret = 0;
+	case SCHED_LOW_IDLE:
 		ret = 0;
 	}
 	return ret;
