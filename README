@@ -121,3 +121,13 @@ Enviando comando: enc aabbccddeeff00112233445566778899
 XTEA Driver: processed 16 bytes
 Resultado recebido: [e74ca02e5b1885d93d2cd3edb82c2177]
 XTEA Driver closed
+
+
+
+export blablbalblalbalblalblablabla
+cd setpriotrity
+make
+cd ..
+make 
+./start_qemu
+setpriotrity
