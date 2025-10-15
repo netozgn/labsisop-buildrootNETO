@@ -6064,7 +6064,7 @@ wakeup_preempt_entity(struct sched_entity *curr, struct sched_entity *se)
 
 static void set_last_buddy(struct sched_entity *se)
 {
-	if (entity_is_task(se) && (unlikely(task_of(se)->policy == SCHED_IDLE) || unlikely(task_of(se)->policy == SCHED_LOW_IDLE))
+	if (entity_is_task(se) && (unlikely(task_of(se)->policy == SCHED_IDLE) || unlikely(task_of(se)->policy == SCHED_LOW_IDLE)))
 		return;
 
 	for_each_sched_entity(se) {
@@ -6076,7 +6076,7 @@ static void set_last_buddy(struct sched_entity *se)
 
 static void set_next_buddy(struct sched_entity *se)
 {
-	if (entity_is_task(se) && (unlikely(task_of(se)->policy == SCHED_IDLE) || unlikely(task_of(se)->policy == SCHED_LOW_IDLE))
+	if (entity_is_task(se) && (unlikely(task_of(se)->policy == SCHED_IDLE) || unlikely(task_of(se)->policy == SCHED_LOW_IDLE)))
 		return;
 
 	for_each_sched_entity(se) {
